@@ -9,9 +9,13 @@ load_dotenv()
 #google_api_key = os.getenv("GOOGLE_API_KEY")
 
 google_api_key = os.getenv("GOOGLE_API_KEY")
-if not google_api_key:
-    raise ValueError("GOOGLE_API_KEY is missing. Check your .env file.")
 
+# Use Streamlit secrets when deployed
+if st.secrets.get("GOOGLE_API_KEY"):
+    google_api_key = st.secrets["GOOGLE_API_KEY"]
+
+if not google_api_key:
+    raise ValueError("GOOGLE_API_KEY is missing. Check your environment or Streamlit Secrets.")
 
 # Initialize the Gemini model using Langchain
 model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
