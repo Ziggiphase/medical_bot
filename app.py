@@ -6,7 +6,12 @@ import os
 
 # Load environment variables
 load_dotenv()
+#google_api_key = os.getenv("GOOGLE_API_KEY")
+
 google_api_key = os.getenv("GOOGLE_API_KEY")
+if not google_api_key:
+    raise ValueError("GOOGLE_API_KEY is missing. Check your .env file.")
+
 
 # Initialize the Gemini model using Langchain
 model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
@@ -55,4 +60,6 @@ if st.session_state.messages:
 if st.button("🔄 Reset Chat"):
     st.session_state.messages = []  # Clear session state
     st.experimental_rerun()
+
+
 
