@@ -25,7 +25,7 @@ except RuntimeError:
     asyncio.set_event_loop(loop)
     
 async def create_model():
-    return ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
+    return ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=google_api_key, temperature=1.0)
 
 
 # Initialize the Gemini model using Langchain
