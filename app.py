@@ -75,7 +75,7 @@ if st.session_state.messages:
 # **Reset Button**
 if st.button("🔄 Reset Chat"):
     st.session_state.messages = []  # Clear session state
-    st.experimental_rerun()
+    st.rerun()
 
 
 
