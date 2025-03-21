@@ -3,6 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage
 from dotenv import load_dotenv
 import os
+import asyncio
 
 # Load environment variables
 load_dotenv()
@@ -17,8 +18,19 @@ if st.secrets.get("GOOGLE_API_KEY"):
 if not google_api_key:
     raise ValueError("GOOGLE_API_KEY is missing. Check your environment or Streamlit Secrets.")
 
+try:
+    loop = asyncio.get_running_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+async def create_model():
+    return ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
+
+
 # Initialize the Gemini model using Langchain
-model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
+#model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=google_api_key, temperature=1.0)
+model = loop.run_until_complete(create_model())
 
 # Streamlit UI
 st.title("Medical Diagnosis Assistant")
